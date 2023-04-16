@@ -1,4 +1,4 @@
-require("../mongodb_helper")
+require('../mongodb_helper');
 const Movie = require('../../models/movie');
 const request = require('supertest');
 const app = require('../../app');
@@ -7,18 +7,30 @@ beforeEach(async () => {
   await Movie.deleteMany({});
 });
 
-describe('/movies', () => {
-  test('POST, when title, director & year are provided, the response code is 201', async () => {
+describe('POST', () => {
+  test('When title, director & year are provided, the response code is 201', async () => {
     const response = await request(app)
       .post('/movies')
-      .send({ title: 'Jurassic Park', director: 'Steven Spielberg', year: 1993, rating: 9.3,  genre: 'Adventure' });
+      .send({
+        title: 'Jurassic Park',
+        director: 'Steven Spielberg',
+        year: 1993,
+        rating: 9.3,
+        genre: 'Adventure'
+      });
     expect(response.statusCode).toBe(201);
   });
 
-  test('POST, when title, director & year are provided, a movie is created', async () => {
+  test('hen title, director & year are provided, a movie is created', async () => {
     await request(app)
       .post('/movies')
-      .send({ title: 'Jurassic Park', director: 'Steven Spielberg', year: 1993, rating: 9.3, genre: 'Adventure' });
+      .send({
+        title: 'Jurassic Park',
+        director: 'Steven Spielberg',
+        year: 1993,
+        rating: 9.3,
+        genre: 'Adventure'
+      });
 
     const movies = await Movie.find();
     const newMovie = movies[movies.length - 1];
@@ -27,17 +39,25 @@ describe('/movies', () => {
     expect(newMovie.director).toBe('Steven Spielberg');
     expect(newMovie.year).toBe(1993);
   });
+});
 
-  test('GET, get all movies, returns empty array when no movies in the database', async () => {
+describe('GET', () => {
+  test('returns empty array when no movies in the database', async () => {
     const response = await request(app).get('/movies');
 
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body.length).toBe(0);
   });
-  
-  test('GET, get all movies, returns single movie in movies array', async () => {
-    await Movie.create({ title: 'Jurassic Park', director: 'Steven Spielberg', year: 1993, rating: 9.3, genre: 'Adventure' });
+
+  test('With one movie in db returns single movie in movies array', async () => {
+    await Movie.create({
+      title: 'Jurassic Park',
+      director: 'Steven Spielberg',
+      year: 1993,
+      rating: 9.3,
+      genre: 'Adventure'
+    });
 
     const response = await request(app).get('/movies');
 
@@ -49,42 +69,45 @@ describe('/movies', () => {
     expect(response.body[0].rating).toBe(9.3);
     expect(response.body[0].genre).toBe('Adventure');
   });
+
+  test('With one movie in db returns single movie in movies array', async () => {
+    await Movie.create({
+      title: 'Jurassic Park',
+      director: 'Steven Spielberg',
+      year: 1993,
+      rating: 9.3,
+      genre: 'Adventure'
+    });
+    await Movie.create({
+      title: 'Lost in Translation',
+      director: 'Sofia Coppola',
+      year: 2003,
+      rating: 8.2,
+      genre: 'Romance'
+    });
+    await Movie.create({
+      title: 'Apocalypse Now',
+      director: 'Francis Ford Coppola',
+      year: 1979,
+      rating: 8.4,
+      genre: 'War'
+    });
+    await Movie.create({
+      title: 'The Royal Tenenbaums',
+      director: 'Wes Anderson',
+      year: 2001,
+      rating: 9.0,
+      genre: 'Comedy'
+    });
+
+    const response = await request(app).get('/movies');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.length).toBe(3); // Expecting 3 movies as per the limit set in fetchRecentMovies function
+    expect(response.body[0].title).toBe('Lost in Translation'); // Expecting the most recent movie to be first in the array
+    expect(response.body[0].director).toBe('Sofia Coppola');
+    expect(response.body[0].year).toBe(2003);
+    expect(response.body[0].rating).toBe(8.2);
+    expect(response.body[0].genre).toBe('Romance');
+  });
 });
-
-
-//   })
-
-//   describe("POST, when password is missing", () => {
-//     test("response code is 400", async () => {
-//       let response = await request(app)
-//         .post("/movies")
-//         .send({email: "skye@email.com"})
-//       expect(response.statusCode).toBe(400)
-//     });
-
-//     test("does not create a movie", async () => {
-//       await request(app)
-//         .post("/movies")
-//         .send({email: "skye@email.com"})
-//         let movies = await Movie.find()
-//         expect(movies.length).toEqual(0)
-//     });
-//   })
-  
-//   describe("POST, when email is missing", () => {
-//     test("response code is 400", async () => {
-//       let response = await request(app)
-//         .post("/movies")
-//         .send({password: "1234"})
-//       expect(response.statusCode).toBe(400)
-//     });
-
-//     test("does not create a movie", async () => {
-//       await request(app)
-//         .post("/movies")
-//         .send({password: "1234"})
-//       let movies = await Movie.find()
-//       expect(movies.length).toEqual(0)
-//     });
-//   })
-// })

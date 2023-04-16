@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 beforeAll(async () => {
-  await mongoose.connect('mongodb://localhost/moviedbdev', {
+  await mongoose.connect('mongodb://localhost/moviedbtest', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

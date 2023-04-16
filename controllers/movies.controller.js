@@ -19,9 +19,9 @@ const moviesController = {
     }
   },
   
-  fetchMovies: async (req, res) => {
+  fetchRecentMovies: async (req, res) => {
   try {
-    const movies = await Movie.find();
+    const movies = await Movie.find().sort({ year: -1 }).limit(3);
     res.status(200).json(movies);
   } catch (error) {
     res.status(500).json({ error: error.message });
