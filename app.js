@@ -7,10 +7,14 @@ const app = express();
 
 const mongoose = require('mongoose');
 
-// Get the appropriate MongoDB connection string based on NODE_ENV
-const dbURI = process.env.NODE_ENV === 'test'
-  ? config.db.test
-  : config.db.development;
+const dbURIs = {
+  test: config.db.test,
+  production: config.db.production,
+  development: config.db.development
+};
+
+// Determine the appropriate MongoDB connection string based on the environment
+const dbURI = dbURIs[process.env.NODE_ENV] || dbURIs.development;
 
 mongoose.connect(dbURI, {
     useNewUrlParser: true,
