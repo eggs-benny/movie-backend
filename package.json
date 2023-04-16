@@ -2,7 +2,7 @@
   "name": "movie-backend",
   "version": "1.0.0",
   "description": "API & Database for storing and finding movies",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
