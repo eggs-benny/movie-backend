@@ -10,15 +10,17 @@ const movieSchema = new mongoose.Schema({
     required: true
   },
   year: {
-    type: NumberInt,
+    type: Number,
     required: true
   },
   genre: {
     type: String
   },
   rating: {
-    type: NumberDecimal
+    type: Number
   }
 });
 
-module.exports = mongoose.model('Movie', movieSchema);
+const Movie = mongoose.model('Movie', movieSchema);
+
+module.exports = Movie
