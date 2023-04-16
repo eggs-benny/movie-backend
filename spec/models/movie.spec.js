@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
-require('./mongodb_helper')
-const Movie = require('../models/movie');
+require('../mongodb_helper')
+const Movie = require('../../models/movie');
 beforeEach(async () => {
   await mongoose.connection.dropDatabase();
 });
-
-
 
 describe('Movie model', () => {
   test('Store a movie in MongoDB', async () => {
