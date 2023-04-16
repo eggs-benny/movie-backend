@@ -5,7 +5,7 @@ const moviesRouter = require('./routes/movies')
 const app = express();
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/moviedbdev', {
+mongoose.connect('mongodb://localhost/moviedbtest', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
