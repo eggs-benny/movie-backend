@@ -1,3 +1,6 @@
 node_modules/
 data/
 package-lock.json
+README.md
+**/.terraform/**
+data.tf
