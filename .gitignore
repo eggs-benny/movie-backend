@@ -4,3 +4,5 @@ package-lock.json
 README.md
 **/.terraform/**
 data.tf
+coverage
+terraform

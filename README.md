@@ -1,5 +1,7 @@
 # Movie Database Backend
-This is a movie database backend app that allows you to store and retrieve movies with a title, director, year, genre, and rating. The backend is written in Node.js and uses MongoDB as its database, with Mongoose ODM. API endpoints are exposed to store new movies and fetch the 3 most recently released movies in the database by year. Additionally, the app has been containerized using Docker for easy deployment.
+This is a movie database backend app that allows you to store and retrieve movies with a title, director, year, genre, and rating.
+
+The backend is written in Node.js and uses MongoDB as its database, with Mongoose ODM. API endpoints are exposed to store new movies and fetch the 3 most recently released movies in the database by year. Additionally, the app has been containerized using Docker for easy deployment.
 
 ## Installation
 To run this app locally, you will need to have Node.js and MongoDB installed on your machine.
@@ -12,15 +14,14 @@ To run this app locally, you will need to have Node.js and MongoDB installed on 
 ## Dependencies
 This project includes the following dependencies:
 
-- node.js
-- jest
 - body-parser
 - docker
 - docker-compose
 - express
-- jest
 - mongodb
 - mongoose
+- jest
+- supertest
 
 ## Usage
 ### API Endpoints
@@ -52,6 +53,27 @@ Here's an example request body:
 ## Testing
 Run `npm run test` for the testing suite, covering the database and API.
 
+Good test coverage, with exception of some error testing:
+---------------------------|---------|----------|---------|---------|-------------------
+File                       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------------------|---------|----------|---------|---------|-------------------
+All files                  |   94.11 |       50 |      90 |   94.11 |                   
+ movie-backend             |   93.33 |       50 |      50 |   93.33 |                   
+  app.js                   |   92.85 |       50 |      50 |   92.85 | 24                
+  config.js                |     100 |      100 |     100 |     100 |                   
+ movie-backend/controllers |   84.61 |      100 |     100 |   84.61 |                   
+  movies.controller.js     |   84.61 |      100 |     100 |   84.61 | 18,27             
+ movie-backend/models      |     100 |      100 |     100 |     100 |                   
+  movie.js                 |     100 |      100 |     100 |     100 |                   
+ movie-backend/routes      |     100 |      100 |     100 |     100 |                   
+  movies.js                |     100 |      100 |     100 |     100 |                   
+ movie-backend/spec        |     100 |      100 |     100 |     100 |                   
+  mongodb_helper.js        |     100 |      100 |     100 |     100 |                   
+---------------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 2 passed, 2 total
+Tests:       20 passed, 20 total
+
 ## Docker
 The database and backend are both stored in Docker containers, to be used on any machine.
 To run the app using Docker, make sure you have Docker installed locally on your machine and the daemon running.
@@ -69,13 +91,13 @@ N.B when running Docker, a data volume will be stored locally in your cloned dir
 
 ## Assumptions & comments
 - It is assumed that users of the database will be using European characters for movie entries.
+- It would be possible to return all values within the database but this was not a requirement of the task.
+- The testing suite may show a failed test on first or second attempt. I haven't managed to fully debug, but believe it is an async-await issue on first use of the database.
+- Tests work locally, but not within the Docker environment.
 - There is good test coverage, but more edge cases could be done around text entry.
 - On using Docker, For the purposes of demonstration, I have used standard 'admin' and 'password' as login details. This would need to be more secure in a production environment.
-- Tests work locally, but not within the Docker environment.
 - The aim will be to also deploy to AWS using Terraform.
 
 ## Contributing
 If you would like to contribute to this project, feel free to submit a pull request.
 Please make sure to follow the existing coding style and include tests for any new functionality.
-
-Thank you for using the Movie Database Backend app!
