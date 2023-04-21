@@ -8,7 +8,7 @@ beforeEach(async () => {
 });
 
 describe('POST', () => {
-  test('When title, director & year are provided, the response code is 201', async () => {
+  test('When movie is posted, the response code is 201', async () => {
     const response = await request(app)
       .post('/movies')
       .send({
@@ -21,7 +21,7 @@ describe('POST', () => {
     expect(response.statusCode).toBe(201);
   });
 
-  test('hen title, director & year are provided, a movie is created', async () => {
+  test('When movie is posted, a movie is created in DB', async () => {
     await request(app)
       .post('/movies')
       .send({
@@ -50,7 +50,7 @@ describe('GET', () => {
     expect(response.body.length).toBe(0);
   });
 
-  test('With one movie in db returns single movie in movies array', async () => {
+  test('With one movie in db, returns single movie in movies array', async () => {
     await Movie.create({
       title: 'Jurassic Park',
       director: 'Steven Spielberg',
@@ -70,7 +70,7 @@ describe('GET', () => {
     expect(response.body[0].genre).toBe('Adventure');
   });
 
-  test('With one movie in db returns single movie in movies array', async () => {
+  test('With >3 movies in db, returns 3 movies in reverse chron order', async () => {
     await Movie.create({
       title: 'Jurassic Park',
       director: 'Steven Spielberg',
