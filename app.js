@@ -13,7 +13,6 @@ const dbURIs = {
   development: config.db.development
 };
 
-// Determine the appropriate MongoDB connection string based on the environment
 const dbURI = dbURIs[process.env.NODE_ENV] || dbURIs.development;
 
 mongoose.connect(dbURI, {
