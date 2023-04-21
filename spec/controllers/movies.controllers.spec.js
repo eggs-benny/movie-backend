@@ -43,7 +43,7 @@ describe('POST', () => {
 
 describe('GET', () => {
   test('returns empty array when no movies in the database', async () => {
-    const response = await request(app).get('/movies');
+    const response = await request(app).get('/movies/recent');
 
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
@@ -59,7 +59,7 @@ describe('GET', () => {
       genre: 'Adventure'
     });
 
-    const response = await request(app).get('/movies');
+    const response = await request(app).get('/movies/recent');
 
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(1);
@@ -100,11 +100,11 @@ describe('GET', () => {
       genre: 'Comedy'
     });
 
-    const response = await request(app).get('/movies');
+    const response = await request(app).get('/movies/recent');
 
     expect(response.statusCode).toBe(200);
-    expect(response.body.length).toBe(3); // Expecting 3 movies as per the limit set in fetchRecentMovies function
-    expect(response.body[0].title).toBe('Lost in Translation'); // Expecting the most recent movie to be first in the array
+    expect(response.body.length).toBe(3); 
+    expect(response.body[0].title).toBe('Lost in Translation');
     expect(response.body[0].director).toBe('Sofia Coppola');
     expect(response.body[0].year).toBe(2003);
     expect(response.body[0].rating).toBe(8.2);
